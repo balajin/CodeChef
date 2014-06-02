@@ -80,11 +80,29 @@ public class TreesAndSubTrees {
         }
         for (int i = 0; i < numberOfChefs - 1; i++) {
             String line = programInput.readLine();
-            String[] split = line.split("[ ]+");
-            Chef senior = allChefs.get(Integer.valueOf(split[0]) - 1);
-            Chef junior = allChefs.get(Integer.valueOf(split[1]) - 1);
-            senior.addReportee(junior, split[2].charAt(0));
+            List<String> split = tokenize(line);
+            Chef senior = allChefs.get(Integer.valueOf(split.get(0)) - 1);
+            Chef junior = allChefs.get(Integer.valueOf(split.get(1)) - 1);
+            senior.addReportee(junior, split.get(2).charAt(0));
         }
         return allChefs.get(0);
+    }
+
+    private static List<String> tokenize(String line) {
+        List<String> results = new ArrayList<String>();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < line.length(); ) {
+            char c = line.charAt(i);
+            if (c != ' ') {
+                builder.append(c);
+            } else if (builder.length() > 0) {
+                results.add(builder.toString());
+                builder = new StringBuilder();
+            }
+            i++;
+        }
+        if (builder.length() > 0)
+            results.add(builder.toString());
+        return results;
     }
 }
