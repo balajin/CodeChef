@@ -1,10 +1,8 @@
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Stack;
 
 public class TreesAndSubTrees {
@@ -53,13 +51,14 @@ public class TreesAndSubTrees {
     }
 
     private static boolean seek(Chef chef, Chef anotherChef) {
-        boolean ofSameAge = false;
-        if (chef == null || anotherChef == null) {
-            ofSameAge = false;
+        if (chef == null && anotherChef == null) {
+            return true;
+        } else if (chef == null || anotherChef == null) {
+            return false;
         } else if (chef.age == anotherChef.age) {
-            ofSameAge = true;
+            return seek(chef.left, anotherChef.left) && seek(chef.right, anotherChef.right);
         }
-        return ofSameAge && ((chef.left == null && anotherChef.left == null) || seek(chef.left, anotherChef.left)) && ((chef.right == null && anotherChef.right == null) || seek(chef.right, anotherChef.right));
+        return false;
     }
 
     public static void main(String[] args) throws IOException {
